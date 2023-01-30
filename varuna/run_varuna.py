@@ -6,8 +6,8 @@ import sys
 
 from .utils import HEARTBEAT_IP_ENV_VAR, HEARTBEAT_PORT_ENV_VAR, VARUNA_TEMP_FOLDER, MORPH_PORT_ENV_VAR
 
-HEARTBEAT_PORT = 5000 
-MORPH_PORT = 4200
+HEARTBEAT_PORT = 29501
+MORPH_PORT = 29502
 
 # TODO: readme/docs for launch process
 
@@ -171,16 +171,18 @@ if __name__ == "__main__":
             cmd = launch_cmd.split(" ")
             cmd = [x_ for x_ in cmd if x_ != ""]
             # print("launch cmd is ", cmd)
+            process = subprocess.run(cmd, env=current_env)
         else:
-            cmd = ["ssh"]
-            cmd.append(machine)
-            cmd.append(f"echo \"{launch_cmd}\" > launch_varuna.sh; ")
-            cmd.append(f"{HEARTBEAT_IP_ENV_VAR}={args.manager_ip}") 
-            cmd.append(f"{MORPH_PORT_ENV_VAR}={MORPH_PORT} {HEARTBEAT_PORT_ENV_VAR}={HEARTBEAT_PORT}")
-            cmd.append(get_env_vars(args.env_file))
-            cmd.append("bash launch_varuna.sh")
-            print(" ".join(cmd ))
+            # cmd = ["ssh"]
+            # cmd.append(machine)
+            # cmd.append(f"echo \"{launch_cmd}\" > launch_varuna.sh; ")
+            # cmd.append(f"{HEARTBEAT_IP_ENV_VAR}={args.manager_ip}")
+            # cmd.append(f"{MORPH_PORT_ENV_VAR}={MORPH_PORT} {HEARTBEAT_PORT_ENV_VAR}={HEARTBEAT_PORT}")
+            # cmd.append(get_env_vars(args.env_file))
+            # cmd.append("bash launch_varuna.sh")
+            # print(" ".join(cmd ))
+            pass
        
-        process = subprocess.Popen(cmd, env=current_env, 
-                                    stdout=out_file,
-                                    stderr=err_file)
+        # process = subprocess.Popen(cmd, env=current_env,
+        #                             stdout=out_file,
+        #                             stderr=err_file)
