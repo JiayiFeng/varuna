@@ -124,6 +124,22 @@ This launcher passes a few arguments to the user training script for Varuna. The
 * chunk_size: micro batch size for Varuna pipeline
 * batch-size: per process batch size
 
+### No SSH env launch
+
+for master node:
+```
+python -m varuna.run_varuna --machine_list=mechine_list.txt --gpus_per_node=4 --nstages=${TOTAL_GPU_NUM} \
+--batch_size=512 --chunk_size=8  --no_morphing train.py ${args}
+```
+
+for other nodes:
+```
+VARUNA_MANAGER_IP=${MASTER_NODE_IP} VARUNA_MORPH_PORT=29502 VARUNA_HEARTBEAT_PORT=29501 python -m varuna.launcher \
+--ngpus_per_server 4  --node_rank ${NODE_RANK} --nservers ${NODE_NUM} --master_addr ${MASTER_NODE_IP} \
+--nstages {TOTAL_GPU_NUM} --batch_size 512 --chunk_size 8 --code_dir=${CODE_DIR}  train.py ${args}
+```
+
+
 ### Changing resources: job morphing
 
 Varuna enables training on a changing set of nodes/gpus. This is through monitoring the machine_list text file of IPs with the set of available nodes at any time. 
